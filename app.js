@@ -1,5 +1,6 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
+const routes = require('./routes')
 require('./config/mongoose')
 
 const app = express()
@@ -9,13 +10,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 // routes setting
-app.get('/login', (req, res) => {
-  res.render('login')
-})
-
-app.get('/', (req,res) => {
-  res.render('index')
-})
+app.use(routes)
 
 // port setting
 app.listen(3000, () => {
