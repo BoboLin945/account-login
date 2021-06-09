@@ -2,6 +2,8 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const routes = require('./routes')
 require('./config/mongoose')
+const session = require('express-session')
+const flush = require('connect-flash')
 
 const app = express()
 
@@ -11,6 +13,14 @@ app.set('view engine', 'handlebars')
 
 // body-parser
 app.use(express.urlencoded({ extended: true }))
+
+app.use(session({
+  secret: 'secret',
+  cookie: { maxAge : 60000},
+  saveUninitialized: false,
+  resave: true,
+}))
+app.use(flush())
 
 // routes setting
 app.use(routes)

@@ -3,7 +3,7 @@ const router = express.Router()
 const User = require('../../models/user')
 
 router.get('/', (req, res) => {
-  res.render('login')
+  res.render('login', { message: req.flash('message')})
 })
 // 驗證
 router.post('/', (req, res) => {
@@ -15,18 +15,20 @@ router.post('/', (req, res) => {
     .then(user => {
       // 沒有輸入完整，顯示請輸入
       if (!email || !password) {
-        console.log('please input email and password')
+        req.flash('message', 'Please input email and password!')
+        res.redirect('/login')
       } else {
         // 沒有帳號，顯示無此人
         if (!user) {
-          console.log('user is not exist')
+          req.flash('message', 'User is not exist!')
+          res.redirect('/login')
         } else {
-          console.log('user is exist')
           // 有帳號，比對 password
           if (user.password === password) {
             res.render('index', { user })
           } else {
-            console.log('password is wrong')
+            req.flash('message', 'Password is wrong!')
+            res.redirect('/login')
           }
         }
       }
