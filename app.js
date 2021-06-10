@@ -4,6 +4,7 @@ const routes = require('./routes')
 require('./config/mongoose')
 const session = require('express-session')
 const flush = require('connect-flash')
+const cookieParser = require('cookie-parser')
 
 const app = express()
 
@@ -13,6 +14,9 @@ app.set('view engine', 'handlebars')
 
 // body-parser
 app.use(express.urlencoded({ extended: true }))
+
+// cookie-parser
+app.use(cookieParser())
 
 app.use(session({
   secret: 'secret',
